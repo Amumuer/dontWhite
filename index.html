@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<div class="operate">
+    <span class="score">分数:0</span>
+    <ul id="ul">
+        <li>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="hidden">
+    <li>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </li>
+</div>
+</body>
+<script>
+    var num=0;
+    $.each($('#ul>li'),function (index,el) {
+//        console.log(el);
+        console.log($(el).find('li'));
+        $.each($(el).find('li'),function (index2,el2) {
+            if(Math.random()>0.5){
+                $(el2).addClass('black')
+                return false;
+            }
+            if(index2===3){
+                $(el2).addClass('black')
+            }
+        })
+    })
+    var temp=$('.hidden').children()
+    var flag=true;
+    $('#ul').on('click','li li',function () {
+        if($(this).hasClass('black')){
+            console.log($(this).parents('li').index());
+            //检查是否忽略了黑格子
+            for(var i=$(this).parents('li').index()+1;i<$('#ul>li').length;i++){
+                $.each($('#ul>li').eq(i).find('li'),function (index3,el3) {
+                    if($(el3).hasClass('black')){
+                        flag=false;
+                        alert('lost')
+                    }
+
+                })
+            }
+            if(flag){
+                $(this).removeClass('black').addClass('finshed')
+                //排他
+                $.each($('.hidden li li'),function (index,el) {
+                    $(el).removeClass('finshed black')
+                })
+                //由下往上推出新的格子
+                $.each($('.hidden li li'),function (index,el) {
+                    if(Math.random()>0.5){
+                        $(el).addClass('black')
+                        return false;
+                    }
+                    if(index===3){
+                        $(el).addClass('black')
+                    }
+                })
+                //收起第一个格子
+                $('#ul>li').eq($('#ul>li').length-1).slideDown(300,function () {
+                    $('#ul>li').eq($('#ul>li').length-1).remove()
+                })
+                num++;
+                //最新的格子添加到容器里
+                $('#ul').prepend($('.hidden').html())
+                $('.score').text('分数:'+num*100)
+            }
+        }else{
+            flag=false;
+            alert('lost')
+        }
+    })
+</script>
+</html>
