@@ -5,6 +5,12 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.operate{
+  max-width: 720px;
+  min-width: 320px;
+  width: 100%;
+  margin: 0 auto;
+}
 li{
   list-style: none;
 }

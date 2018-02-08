@@ -7,7 +7,12 @@
 
 li {
   list-style: none; }
-
+.operate{
+  max-width: 720px;
+  min-width: 320px;
+  width: 100%;
+  margin: 0 auto;
+}
 .score {
   position: absolute;
   left: 2%;
